@@ -1,0 +1,121 @@
+#N canvas 24 33 1368 793 10;
+#X obj 799 437 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X msg 799 469 \; pd dsp \$1;
+#X obj 252 634 dac~ 1 2;
+#X text 249 654 dac with channel 1 and 2;
+#X obj 252 612 *~;
+#X obj 303 612 *~;
+#X obj 341 573 vsl 12 37 0 1 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 600 1;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X array channelL 682838 float 2;
+#X coords 0 1 682838 -1 200 140 1;
+#X restore 798 116 graph;
+#X obj 107 5 bng 7 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 107 21 openpanel;
+#X msg 107 46 read -resize \$1 channelL channelR;
+#X text 171 20 opens file picker;
+#X text 230 48 read the contents from open panel resize the table and
+read contents to channelL and channelR;
+#X obj 107 110 soundfiler;
+#X text 178 103 outputs the size of file in terms of samples;
+#X floatatom 115 144 12 0 0 0 - - -, f 12;
+#X obj 107 204 expr 44100 / $f1;
+#X obj 115 165 s sampleSize;
+#X text 198 164 send sampleSize;
+#X floatatom 115 229 12 0 0 0 - - -, f 12;
+#X obj 107 263 phasor~;
+#X text 216 197 rate for tables to read with phasor;
+#X text 158 255 generate a sawtooth wave at this rate above;
+#X text 113 608 multiplication audio object with volume slider so you
+dont kill your ears;
+#X text 817 437 dsp on/off;
+#X obj 107 345 *~;
+#X text 132 339 multiplication object;
+#X obj 122 302 r sampleSize;
+#X text 205 296 inlet to mupltiplication \, received from above sampleSize
+;
+#X obj 107 538 tabread4~ channelL;
+#X text 245 507 ramped up numbers fed to table channelL/R table;
+#X obj 233 538 tabread4~ channelR;
+#X text 197 144 total samples;
+#X text 197 228 rate (cycles per second);
+#X obj 495 449 snapshot~;
+#X text 559 441 a snapshot of where the sound is in time;
+#X obj 495 418 metro 50;
+#X text 554 411 the snapshot is not continous \, we need to snap it
+in given intervals;
+#X obj 495 412 tgl 7 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X floatatom 495 475 12 0 0 0 - - -, f 12;
+#X obj 495 515 /;
+#X obj 534 500 r sampleSize;
+#X text 575 468 normalize the time to be between 0 and 1 to show on
+table;
+#X floatatom 495 541 12 0 0 0 - - -, f 12;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X array channelR 682838 float 2;
+#X coords 0 1 682838 -1 200 140 1 0 0;
+#X restore 798 285 graph;
+#X obj 810 555 hsl 195 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 3948 1;
+#X text 492 385 timeline;
+#X obj 370 172 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 6760 1;
+#X floatatom 366 195 12 0 0 0 - - -, f 12;
+#X text 365 115 Playback Speed Control;
+#X obj 341 618;
+#X msg 367 136 0.0645834;
+#X text 404 250 where in the table are we going to start from;
+#X msg 438 232 0.5;
+#X msg 405 232 0;
+#X msg 32 222 0;
+#X text 15 128 stop playback;
+#X obj 33 169 t b b;
+#X obj 33 147 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 29 282 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X text 5 298 pause playback;
+#X text 431 131 initial spped / rsume playback (TODO: make it initialized
+from rate);
+#X connect 0 0 1 0;
+#X connect 4 0 2 0;
+#X connect 5 0 2 1;
+#X connect 6 0 5 1;
+#X connect 6 0 4 1;
+#X connect 6 0 50 0;
+#X connect 8 0 9 0;
+#X connect 9 0 10 0;
+#X connect 10 0 13 0;
+#X connect 13 0 15 0;
+#X connect 13 0 16 0;
+#X connect 15 0 17 0;
+#X connect 16 0 19 0;
+#X connect 16 0 20 0;
+#X connect 20 0 25 0;
+#X connect 25 0 29 0;
+#X connect 25 0 31 0;
+#X connect 25 0 34 0;
+#X connect 27 0 25 1;
+#X connect 29 0 4 0;
+#X connect 31 0 5 0;
+#X connect 34 0 39 0;
+#X connect 36 0 34 0;
+#X connect 38 0 36 0;
+#X connect 39 0 40 0;
+#X connect 40 0 43 0;
+#X connect 41 0 40 1;
+#X connect 43 0 45 0;
+#X connect 47 0 48 0;
+#X connect 48 0 20 0;
+#X connect 51 0 47 0;
+#X connect 53 0 20 1;
+#X connect 54 0 20 1;
+#X connect 55 0 20 0;
+#X connect 57 0 54 0;
+#X connect 57 1 55 0;
+#X connect 58 0 57 0;
+#X connect 59 0 55 0;
